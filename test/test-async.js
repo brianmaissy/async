@@ -66,6 +66,44 @@ function getFunctionsObject(call_order) {
     };
 }
 
+exports['brian'] = function(test){
+    function fib(n){
+        if(n<=1) return 1;
+        return fib(n-1) + fib(n-2);
+    }
+    async.parallel([
+        function(callback){
+            fib(37);
+            test.equal(1, 1); // A
+            callback();
+        },
+        function(callback){
+            fib(37);
+            test.notEqual(1, 2); // B
+            callback();
+        },
+        function(callback){
+            fib(37);
+            test.notEqual(1, 2); // B
+            callback();
+        },
+        function(callback){
+            fib(37);
+            test.notEqual(1, 2); // B
+            callback();
+        },
+        function(callback){
+            fib(37);
+            test.notEqual(1, 2); // B
+            callback();
+        }
+    ], function(error, result){
+        test.ok(true);
+        test.done();
+    });
+    test.same(1, 1);
+};
+
 exports['auto'] = function(test){
     var callOrder = [];
     var testdata = [{test: 'test'}];
